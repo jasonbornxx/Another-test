@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; background: #e0e5ec; margin: 0; padding: 20px; }
+        .card { background: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        img { width: 100%; border-radius: 8px; }
+        h2 { margin: 10px 0 5px 0; font-size: 1.4em; color: #333; }
+        p { color: #666; margin: 0; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: #333;">🌍 My Panoramas</h1>
+    <div id="gallery">Loading images...</div>
+
+    <script>
+        // Thanks to Kotlin settings, this fetch ignores CORS completely!
+        fetch('data.json')
+            .then(res => res.json())
+            .then(data => {
+                const gallery = document.getElementById('gallery');
+                gallery.innerHTML = '';
+                data.forEach(pano => {
+                    gallery.innerHTML += `
+                        <div class="card">
+                            <img src="${pano.image_url}">
+                            <h2>${pano.name}</h2>
+                            <p>Date: ${pano.date}</p>
+                        </div>
+                    `;
+                });
+            })
+            .catch(err => {
+                document.getElementById('gallery').innerHTML = "Error loading data: " + err;
+            });
+    </script>
+</body>
+</html>
